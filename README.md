@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 Single-cell foundation models (ScFMs) such as Geneformer, scGPT, CellFM and scFoundation differ in architecture, pre-training objective, input encoding and
-gene vocabulary, and no single model is best everywhere. **HeteroSC** (the method and this code) keeps these models *frozen*, maps each model's representation into a shared latent space with an
+gene vocabulary, and no single model is best everywhere. **HeteroSC** maps each model's representation into a shared latent space with an
 **expert-specific adapter**, and lets an **input-dependent router** decide how much each expert contributes for every cell, gene or cell line.
 New experts can be added with another adapter, without retraining any foundation model.
 
