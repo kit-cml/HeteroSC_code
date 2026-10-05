@@ -1,0 +1,14 @@
+# Template for gears. Pin versions to the repository's own requirements.
+# pip install cell-gears; PyTorch Geometric must match your torch/CUDA build (see pyg.org)
+name: heterosc-gears
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - anndata
+      - cell-gears
+      - torch_geometric
+      - -e ..

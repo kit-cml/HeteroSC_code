@@ -1,0 +1,15 @@
+# data, embeddings and weights are never committed
+data/
+outputs/
+checkpoints/
+*.h5ad
+*.pt
+*.ckpt
+*.safetensors
+*.rar
+*.zip
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/

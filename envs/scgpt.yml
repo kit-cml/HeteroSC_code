@@ -1,0 +1,13 @@
+# Template for scgpt. Pin versions to the repository's own requirements.
+# clone https://github.com/bowang-lab/scGPT and follow its install notes; Windows: use_fast_transformer=False
+name: heterosc-scgpt
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - anndata
+      - scgpt
+      - -e ..

@@ -1,0 +1,18 @@
+# Core HeteroSC environment (training on pre-extracted embeddings). Versions used during development are noted in comments.
+name: heterosc
+channels: [conda-forge, pytorch]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - torch>=2.1            # dev: PyTorch 2.5.1, CUDA 12.1
+      - numpy
+      - pandas
+      - scipy
+      - scikit-learn          # dev: 1.7.2
+      - anndata
+      - scanpy                # dev: 1.11.5
+      - umap-learn            # dev: 0.5.12
+      - matplotlib
+      - rdkit                 # only to rebuild drug features from SMILES
+      - -e ..

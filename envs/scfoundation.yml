@@ -1,0 +1,13 @@
+# Template for scfoundation. Pin versions to the repository's own requirements.
+# clone https://github.com/biomap-research/scFoundation; its model/load.py is imported directly
+name: heterosc-scfoundation
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - anndata
+      - scanpy
+      - -e ..

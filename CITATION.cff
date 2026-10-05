@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use this software or its data, please cite the manuscript and the Zenodo data record."
+title: "HeteroSC: adaptive expert orchestration of heterogeneous single-cell foundation models"
+type: software
+version: 0.1.0
+license: MIT
+authors:
+  - family-names: Nursyafi
+    given-names: Fauzan Syarif
+    orcid: "https://orcid.org/0009-0001-5330-2008"
+    affiliation: "Kumoh National Institute of Technology; Institute of Bioinformatics Indonesia"
+  - family-names: Hanum
+    given-names: Ulfa Latifa
+    orcid: "https://orcid.org/0009-0001-9129-8951"
+    affiliation: "Kumoh National Institute of Technology"
+  - family-names: Fuadah
+    given-names: Yunendah Nur
+    orcid: "https://orcid.org/0000-0003-4285-4824"
+    affiliation: "Telkom University"
+  - family-names: Lim
+    given-names: Ki Moo
+    orcid: "https://orcid.org/0000-0001-6729-8129"
+    affiliation: "Kumoh National Institute of Technology; Meta Heart Co., Ltd; High-tech Medical Equipment Research Institute, Kumoh National Institute of Technology"
+preferred-citation:
+  type: article
+  status: submitted
+  title: "Can Heterogeneous Single-Cell Foundation Models Work Better Together? HeteroSC for Adapter-Based Integration and Orchestration of Complementary ScFM Experts"
+  year: 2026
+  authors:
+    - family-names: Nursyafi
+      given-names: Fauzan Syarif
+    - family-names: Hanum
+      given-names: Ulfa Latifa
+    - family-names: Fuadah
+      given-names: Yunendah Nur
+    - family-names: Lim
+      given-names: Ki Moo
+references:
+  - type: dataset
+    title: "HeteroSC benchmark data: processed single-cell annotation datasets, drug-response tables, perturbation splits and data partitions"
+    doi: "10.5281/zenodo.23153537"
+    year: 2026
+    publisher:
+      name: Zenodo
+    authors:
+      - family-names: Nursyafi
+        given-names: Fauzan Syarif
+      - family-names: Hanum
+        given-names: Ulfa Latifa
+      - family-names: Fuadah
+        given-names: Yunendah Nur
+      - family-names: Lim
+        given-names: Ki Moo

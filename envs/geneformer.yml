@@ -1,0 +1,14 @@
+# Template for geneformer. Pin versions to the repository's own requirements.
+# git clone https://huggingface.co/ctheodoris/Geneformer  (needs git-lfs); pip install the cloned repo
+name: heterosc-geneformer
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - anndata
+      - transformers
+      - datasets
+      - -e ..

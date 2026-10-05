@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heterosc"
+version = "0.1.0"
+description = "HeteroSC: adaptive expert orchestration of heterogeneous single-cell foundation models"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = ["torch>=2.1", "numpy", "pandas", "scipy", "scikit-learn", "anndata"]
+
+[project.optional-dependencies]
+plots = ["matplotlib"]
+dev = ["pytest", "matplotlib", "jupyter", "nbconvert"]
+extraction = ["scanpy", "datasets", "transformers"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

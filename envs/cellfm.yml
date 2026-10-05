@@ -1,0 +1,13 @@
+# Template for cellfm. Pin versions to the repository's own requirements.
+# clone https://github.com/biomed-AI/CellFM (PyTorch port); MindSpore is only needed to read the checkpoint
+name: heterosc-cellfm
+channels: [conda-forge]
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - anndata
+      - mindspore
+      - -e ..
