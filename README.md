@@ -76,11 +76,11 @@ Each has heavy, specific dependencies, so extraction runs in a separate environm
 ## Data
 
 The record [10.5281/zenodo.23153537](https://doi.org/10.5281/zenodo.23153537) contains the processed annotation datasets with their train/validation/test assignment, the drug-response tables with the leave-drug-out folds,
-Norman/Adamson in GEARS format and the GEARS split. Raw GDSC dose-response files and all embeddings and weights are *not* included. Details, file lists and attribution: [`docs/data.md`](docs/data.md).
+Norman/Adamson in GEARS format and the GEARS split. Details, file lists and attribution: [`docs/data.md`](docs/data.md).
 
 ```python
 from heterosc.zenodo import download_data
-download_data("data")          # ~650 MB, MD5-verified
+download_data("data")          
 ```
 
 ## Repository layout
