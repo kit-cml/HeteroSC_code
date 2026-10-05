@@ -1,17 +1,22 @@
-# HeteroSC
-
-**Adaptive expert orchestration of heterogeneous single-cell foundation models.**
+# HeteroSC for Adapter-Based Integration and Orchestration of Complementary ScFM Experts
 
 [![Data DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23153537.svg)](https://doi.org/10.5281/zenodo.23153537)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 Single-cell foundation models (ScFMs) such as Geneformer, scGPT, CellFM and scFoundation differ in architecture, pre-training objective, input encoding and
-gene vocabulary, and no single model is best everywhere. **HeteroSC** keeps these models *frozen*, maps each model's representation into a shared latent space with an
+gene vocabulary, and no single model is best everywhere. **HeteroSC** (the method and this code) keeps these models *frozen*, maps each model's representation into a shared latent space with an
 **expert-specific adapter**, and lets an **input-dependent router** decide how much each expert contributes for every cell, gene or cell line.
 New experts can be added with another adapter, without retraining any foundation model.
 
-![HeteroSC architecture](assets/architecture.png)
+![HeteroSC schematic](assets/schematic.png)
+
+**Figure: overview of HeteroSC and its three downstream tasks.**
+
+- **A · Core architecture.** Four pretrained single-cell foundation models act as frozen experts (ScFM 1–4: Geneformer, scGPT, CellFM, scFoundation). Each produces a native embedding $e_i^{(k)} \in \mathbb{R}^{d_k}$ of a different size. An **expert-specific adapter** $f_k$ projects it into a shared latent space, giving the adapted projection $\bar h_i^{(k)} \in \mathbb{R}^{d}$. The adapted projections feed two parallel branches. **Branch 1 (adaptive routing):** they are concatenated ($H_i \in \mathbb{R}^{4d}$) and passed through the **AdaptiveRouter**, which outputs one logit per expert; a softmax turns the logits into input-dependent routing weights $\alpha_i \in \mathbb{R}^{4}$. **Branch 2 (stacked representations):** the same projections are stacked into $\bar H_i \in \mathbb{R}^{4\times d}$. **Weighted fusion** combines both branches into the fused representation $h_i = \sum_k \alpha_i^{(k)} \bar h_i^{(k)} = \alpha_i^{\top} \bar H_i \in \mathbb{R}^{d}$.
+- **B · Cell type annotation.** The gene expression of a single cell is encoded by the frozen experts, adapters and router into a fused cell representation, which a classification head (MLP + softmax) maps to a cell type (Pancreas, Skin, Liver, Lung and Myeloid datasets). Routing is per cell.
+- **C · Gene perturbation prediction (GEARS).** HeteroSC produces a fused **gene embedding** from the basal cell state, which takes the place of GEARS' own gene embedding. The perturbation condition is encoded separately by the GEARS encoder into a perturbation embedding. Both embeddings are combined and the GEARS decoder predicts the post-perturbation expression of every gene. Routing is per gene.
+- **D · Unseen-drug response prediction.** The fused cell-line representation (from the cell-line transcriptome) is concatenated with a drug representation produced by a graph convolutional network (GCN) on the molecular structure. A regression head (MLP) predicts the drug response (AUC). Routing is per cell line, and validation is leave-drug-out.
 
 > **Paper:** *Can Heterogeneous Single-Cell Foundation Models Work Better Together? HeteroSC for Adapter-Based Integration and Orchestration of Complementary ScFM Experts.*
 > Nursyafi F. S., Hanum U. L., Fuadah Y. N., Lim K. M. (manuscript under review).
@@ -19,11 +24,11 @@ New experts can be added with another adapter, without retraining any foundation
 
 ## The idea in 30 seconds
 
-For an input $i$ (a cell, a gene or a cell line) and expert $k$ with frozen embedding $e_i^k$:
+For an input $i$ (a cell, a gene or a cell line) and expert $k$ with frozen embedding $e_i^{(k)}$ (panel A):
 
-$$h_i^k = f_k(e_i^k), \qquad \alpha_i = \mathrm{softmax}\big(\mathrm{MLP}([h_i^1;\dots;h_i^K])\big), \qquad h_i = \sum_k \alpha_{ik}\, h_i^k .$$
+$$\bar h_i^{(k)} = f_k\big(e_i^{(k)}\big), \qquad \alpha_i = \mathrm{softmax}\big(\mathrm{MLP}(H_i)\big),\ H_i=\big[\bar h_i^{(1)};\dots;\bar h_i^{(K)}\big], \qquad h_i = \sum_{k=1}^{K} \alpha_i^{(k)}\, \bar h_i^{(k)} .$$
 
-Only the adapters $f_k$, the router and a small task head are trained. A **uniform-fusion control** ($\alpha_{ik}=1/K$, same adapters) separates the effect of
+Only the adapters $f_k$, the router and a small task head are trained. A **uniform-fusion control** ($\alpha_i^{(k)}=1/K$, same adapters) separates the effect of
 *routing* from the effect of merely *having several representations*. Three tasks use the same core: **cell type annotation** (routing per cell), **gene perturbation
 prediction** with GEARS (routing per gene) and **unseen-drug response prediction** (routing per cell line, leave-drug-out validation).
 Routing weights are predictive contributions under the training objective, not measures of model quality. See [`docs/theory.md`](docs/theory.md).
@@ -31,7 +36,7 @@ Routing weights are predictive contributions under the training objective, not m
 ## Install
 
 ```bash
-git clone https://github.com/<your-org>/HeteroSC.git && cd HeteroSC
+git clone https://github.com/kit-cml/HeteroSC_code.git && cd HeteroSC_code
 python -m venv .venv && source .venv/bin/activate            # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 pytest -q                                                    # about 20 s on a CPU
@@ -85,6 +90,7 @@ src/heterosc/   modules (adapter, router, fusion) · losses · annotation · dru
                 zenodo / gdsc (data download) · extraction/ (4 foundation models) · plots · synthetic
 notebooks/      00–06 tutorials          scripts/   command-line versions
 docs/           theory · data · reproducibility · method-to-code map          tests/   unit tests (run in CI)
+assets/         schematic.png (figure above)
 ```
 
 ## Status
